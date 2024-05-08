@@ -9,14 +9,7 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    colors:{
-      ...colors,
-      primary:{
-        DEFAULT: '#FF5A5F',
-        dark: '#FF385C',
-        
-      }
-    },
+    
     extend: {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
