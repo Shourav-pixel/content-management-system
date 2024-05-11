@@ -10,7 +10,7 @@
 <%if current_user%>
     <p>Hello, <%= current_user.username %></p>
     <p>You are a [<%= current_user.roles %>]</p>
-    <%=render 'layouts/index'%>
+   
     <% if current_user.admin?%>
         There are <%=User.count%> user in the system
         <%# //TODO: ekhane admin r page render koris %>
