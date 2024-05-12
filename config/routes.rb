@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :categories
+  resources :books
   root 'pages#home'
   # devise_for :users
   devise_for :users, controllers: {
