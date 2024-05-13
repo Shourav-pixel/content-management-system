@@ -1,6 +1,8 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
   before_action :set_categories
+  # before_action :authenticate_user!,except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /books or /books.json
   def index
@@ -14,6 +16,7 @@ class BooksController < ApplicationController
   # GET /books/new
   def new
     @book = Book.new
+    @book.user_id = current_user.id
   end
 
   # GET /books/1/edit
@@ -23,6 +26,7 @@ class BooksController < ApplicationController
   # POST /books or /books.json
   def create
     @book = Book.new(book_params)
+    #@book = current_user.books.build(book_params)
 
     respond_to do |format|
       if @book.save
@@ -66,9 +70,21 @@ class BooksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def book_params
-      params.require(:book).permit(:title, :description, :image, :author, :synopsis, :published_on,:category_id)
+      params.require(:book).permit(:title, :description, :image, :author, :synopsis, :published_on,:category_id,:user_id)
     end
     def set_categories
       @categories = Category.all.order(:name)
     end
+
+    # private
+
+    # # def authenticate_user!
+    # #   unless current_user
+    # #     redirect_to new_user_session_path, alert: 'You need to sign in first.'
+    # #   end
+    # # end
+  
+    # def current_user
+    #   @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+    # end
 end
