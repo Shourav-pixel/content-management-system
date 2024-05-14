@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_13_192019) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_14_201103) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_13_192019) do
   end
 
   create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_taggings_on_book_id"
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -57,4 +72,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_13_192019) do
 
   add_foreign_key "books", "categories"
   add_foreign_key "books", "users"
+  add_foreign_key "taggings", "books"
+  add_foreign_key "taggings", "tags"
 end

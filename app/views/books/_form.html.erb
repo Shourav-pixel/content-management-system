@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+
 <%= form_with(model: book, class: "contents") do |form| %>
   <% if book.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -20,6 +22,13 @@
     <%= form.label :category, style: "display: block" %>
     <%= form.select :category_id, options_for_select(@categories.collect { |cat| [cat.name, cat.id]})%>
   </div>
+
+  <div class="my-5">
+  <%= form.label :tag_ids, style: "display: block" %>
+  <%= form.collection_select :tag_ids, Tag.order(:name), :id, :name, { }, { multiple: true, id: "tag_ids_select" } %>
+</div>
+
+  
 
   <div class="my-5">
     <%= form.label :description %>
@@ -50,3 +59,7 @@
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/js/multi-select-tag.js"></script>
+<script>
+    new MultiSelectTag('tag_ids_select')  // id
+</script>

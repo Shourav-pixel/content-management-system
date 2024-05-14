@@ -6,11 +6,24 @@
 
     <%= render @book %>
 <div>
+
+  <div>
+
+ 
   <p>
 <strong>Image data:</strong>
-<%= image_tag @book.image_url, height: '200px', width: '150px' if @book.image %>
+<%= image_tag @book.image_url, height: '100px', width: '100px' if @book.image %>
 </p>
 </div>
+<div>
+<strong>Tag data:</strong>
+  <p>
+    <small>Tags: <%= raw @book.tags.map(&:name).join(', ') %></small>
+  </p>
+</div>
+</div>
+
+
     <%= link_to "Edit this book", edit_book_path(@book), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <%= link_to "Back to books", books_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
@@ -18,3 +31,5 @@
     </div>
   </div>
 </div>
+
+ </div>
