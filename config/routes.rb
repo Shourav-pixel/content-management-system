@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :tags
   resources :categories
-  resources :books
+  resources :books do 
+    resource :like, module: :books
+  end
   root 'pages#home'
   # devise_for :users
   devise_for :users, controllers: {

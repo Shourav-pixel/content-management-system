@@ -23,6 +23,10 @@
 </div>
 </div>
 
+ <p>
+    <%= render partial: "likes", locals: {book: @book}%>
+  </p>
+
 
     <%= link_to "Edit this book", edit_book_path(@book), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <%= link_to "Back to books", books_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>

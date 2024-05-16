@@ -12,4 +12,5 @@ class User < ApplicationRecord
   # end
 
   has_many :books
+  has_many :likes
 end
