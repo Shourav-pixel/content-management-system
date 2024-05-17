@@ -3,7 +3,7 @@
     <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
       <% @books.each do |book| %>
         <div class="group relative">
-          <%= image_tag book.image_url, class: "w-full h-auto rounded-md bg-gray-200", alt: "#{book.title} Image" if book.image %>
+          <%= image_tag book.image_url, class: "w-full h-auto rounded-md bg-gray-200",  alt: "#{book.title} Image"if book.image %>
           <div class="mt-2">
             <div class="flex justify-between">
               <h3 class="text-base font-medium text-gray-700">

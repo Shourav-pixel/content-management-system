@@ -13,6 +13,7 @@ class BooksController < ApplicationController
   # GET /books/1 or /books/1.json
   def show
     @books = Book.find(params[:id])#kicu chilo na eta add korar age tagissue
+    @comments = @book.comments.order(created_at: :desc)
   end
 
   # GET /books/new

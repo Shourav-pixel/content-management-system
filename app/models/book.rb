@@ -8,6 +8,7 @@ class Book < ApplicationRecord
     # has_many :taggings, foreign_key: 'books_id'
     has_many :tags, through: :taggings
     has_many :likes, as: :record
+    has_many :comments, dependent: :destroy
 
   def self.tagged_with(name)
     Tag.find_by!(name: name).posts

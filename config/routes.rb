@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :categories
   resources :books do 
     resource :like, module: :books
+    resources :comments
   end
   root 'pages#home'
   # devise_for :users

@@ -26,7 +26,12 @@
  <p>
     <%= render partial: "likes", locals: {book: @book}%>
   </p>
-
+<div class="container">
+  <%= render 'comments/form',book: @book%>
+  <% @comments.each do |comment|%>
+  <%= render 'comments/comment',book: @book,comment: comment%>
+  <%end%>
+</div>
 
     <%= link_to "Edit this book", edit_book_path(@book), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <%= link_to "Back to books", books_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
