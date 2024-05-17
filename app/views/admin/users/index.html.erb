@@ -1,0 +1,93 @@
+<% if user_signed_in? && current_user.admin? %>
+ 
+  <div class="card">
+    <div class="card-header">
+      User Management
+    </div>
+    <div class="card-body">
+      <%= form_with(url: bulk_actions_admin_users_path, id: :bulk_actions_form, method: :post, data: { controller: "form-reset" }) do |form| %>
+        <%= form.button type: :submit, value: :block, class: "btn btn-warning" do %>
+          <?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M7 6C7 3.23858 9.23858 1 12 1C14.7614 1 17 3.23858 17 6C17 8.76142 14.7614 11 12 11C9.23858 11 7 8.76142 7 6ZM12 3C10.3431 3 9 4.34315 9 6C9 7.65685 10.3431 9 12 9C13.6569 9 15 7.65685 15 6C15 4.34315 13.6569 3 12 3Z" fill="black"/><path d="M4.06189 21C4.55399 17.0537 7.92038 14 12 14C12.8571 14 13.6809 14.1344 14.4525 14.3827L15.4045 14.6889L16.0169 12.785L15.065 12.4787C14.0979 12.1676 13.0675 12 12 12C6.47715 12 2 16.4772 2 22V23H13.6736V21H4.06189Z" fill="black"/><path fill-rule="evenodd" clip-rule="evenodd" d="M15 19C15 16.7909 16.7909 15 19 15C21.2091 15 23 16.7909 23 19C23 21.2091 21.2091 23 19 23C16.7909 23 15 21.2091 15 19ZM19 17C17.8954 17 17 17.8954 17 19C17 19.1792 17.0236 19.3528 17.0677 19.518L19.518 17.0677C19.3528 17.0236 19.1792 17 19 17ZM20.9323 18.482L18.482 20.9323C18.6472 20.9764 18.8208 21 19 21C20.1046 21 21 20.1046 21 19C21 18.8208 20.9764 18.6472 20.9323 18.482Z" fill="black"/></svg>Block
+        <% end %>
+        <%= form.button type: :submit, value: :unblock, class: "btn btn-primary"  do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M144 144c0-44.2 35.8-80 80-80c31.9 0 59.4 18.6 72.3 45.7c7.6 16 26.7 22.8 42.6 15.2s22.8-26.7 15.2-42.6C331 33.7 281.5 0 224 0C144.5 0 80 64.5 80 144v48H64c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V256c0-35.3-28.7-64-64-64H144V144z"/></svg>
+         
+        <% end %>
+        <%= form.button type: :submit, value: :delete, class: "btn btn-danger"  do %>
+        <svg xmlns="http://www.w3.org/2000/svg"width="24" height="24" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+          
+        <% end %>
+        <br>
+        <br>
+        <table class="table table-light table-hover table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th><input type="checkbox" id="select-all" onclick="toggleAllCheckboxes()"></th>
+              <%# <th>ID</th> %>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Last Login Time</th>
+              <th>Roles</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= check_box_tag "user_ids[]", user.id %></td>
+             
+                <td><%= user.username %></td>
+                <td><%= user.email %></td>
+                <td><%= user.last_sign_in_at %></td>
+                <td><%= user.roles %></td>
+                <td><%= user.status %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  // Function to toggle all checkboxes
+  function toggleAllCheckboxes() {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"][name="user_ids[]"]');
+    var selectAllCheckbox = document.getElementById('select-all');
+
+    checkboxes.forEach(function(checkbox) {
+      checkbox.checked = selectAllCheckbox.checked;
+    });
+  }
+
+  // Function to update the select-all checkbox state
+  function updateSelectAllCheckbox() {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"][name="user_ids[]"]');
+    var selectAllCheckbox = document.getElementById('select-all');
+
+    var allChecked = true;
+    checkboxes.forEach(function(checkbox) {
+      if (!checkbox.checked) {
+        allChecked = false;
+        return;
+      }
+    });
+
+    selectAllCheckbox.checked = allChecked;
+  }
+
+  // Attach event listener to select-all checkbox
+  document.getElementById('select-all').addEventListener('change', function() {
+    toggleAllCheckboxes();
+  });
+
+  // Attach event listener to individual checkboxes to update select-all checkbox state
+  var checkboxes = document.querySelectorAll('input[type="checkbox"][name="user_ids[]"]');
+  checkboxes.forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+      updateSelectAllCheckbox();
+    });
+  });
+</script>
+

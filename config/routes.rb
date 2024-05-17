@@ -11,9 +11,16 @@ Rails.application.routes.draw do
         sessions: 'users/sessions',
         registrations:'users/registrations'
       }
-
+    
+    
  
   get "up" => "rails/health#show", as: :rails_health_check
+
+  namespace :admin do
+    resources :users do
+      post :bulk_actions, on: :collection
+    end
+  end
 
 
 end

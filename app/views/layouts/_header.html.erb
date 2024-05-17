@@ -106,7 +106,9 @@
       
       <%=link_to "Create Collection",new_book_path,class:"text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"%>
       <% end%>
-      <a href="#" class="text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium">Projects</a>
+      <% if user_signed_in? && current_user.admin? %>
+      <%=link_to "Users",admin_users_path,class:"text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"%>
+      <%end%>
       <a href="#" class="text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium">Calendar</a>
     </nav>
   </div>
