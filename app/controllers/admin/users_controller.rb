@@ -20,6 +20,12 @@ class Admin::UsersController < ApplicationController
     when 'delete'
       User.where(id: user_ids).destroy_all
       redirect_to admin_users_path, notice: "#{user_ids.count} users deleted successfully"
+    when 'set_user'
+      User.where(id: user_ids).update_all(roles: 'user')
+      redirect_to admin_users_path, notice: "#{user_ids.count} users set to 'user' successfully"
+    when 'set_admin'
+      User.where(id: user_ids).update_all(roles: 'admin')
+      redirect_to admin_users_path, notice: "#{user_ids.count} users set to 'admin' successfully"
     else
       redirect_to admin_users_path, alert: 'Invalid action'
     end
