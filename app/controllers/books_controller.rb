@@ -10,6 +10,23 @@ class BooksController < ApplicationController
     params[:tag] ? @books = Book.tagged_with(params[:tag]) : @books = Book.all
   end
 
+  def search
+    if params.dig(:title_search).present?
+      @books = Book.filter_by_title(params[:title_search]).order(created_at: :desc)
+    else
+      @books = []
+    end
+    respond_to do |format|
+      format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update("search_results",
+            partial: "books/search_results",
+            locals: { books: @books })
+          ]
+      end
+    end
+  end
+
   # GET /books/1 or /books/1.json
   def show
     @books = Book.find(params[:id])#kicu chilo na eta add korar age tagissue

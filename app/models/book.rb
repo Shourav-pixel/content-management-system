@@ -10,6 +10,8 @@ class Book < ApplicationRecord
     has_many :likes, as: :record
     has_many :comments, dependent: :destroy
 
+    scope :filter_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
+
   def self.tagged_with(name)
     Tag.find_by!(name: name).posts
   end

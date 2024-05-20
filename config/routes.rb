@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :books do 
     resource :like, module: :books
     resources :comments
+    collection do
+      post :search
+    end
   end
   root 'pages#home'
   # devise_for :users
