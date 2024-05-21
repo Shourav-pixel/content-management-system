@@ -4,41 +4,123 @@
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
 
-    <%= render @book %>
-<div>
 
-  <div>
+</div>
+
+ </div>
 
  
-  <p>
-<strong>Image data:</strong>
-<%= image_tag @book.image_url, height: '100px', width: '100px' if @book.image %>
-</p>
-</div>
-<div>
-<strong>Tag data:</strong>
-  <p>
-    <small>Tags: <%= raw @book.tags.map(&:name).join(', ') %></small>
-  </p>
-</div>
-</div>
 
- <p>
-    <%= render partial: "likes", locals: {book: @book}%>
-  </p>
-<div class="container">
+
+<%# ADDED %>
+
+
+<div class="basic row">
+	<div class="col-md-5 left">
+		<div class="images product-images px-4">
+			<div class="product-img-holder ">
+				
+					
+        <%= image_tag @book.image_url, height: '00', width: '400', class: 'main-img ' if @book.image %>
+			
+
+      <%= render partial: "likes", locals: {book: @book}%>
+      
+        <h3>Comment</h3>
   <%= render 'comments/form',book: @book%>
   <% @comments.each do |comment|%>
   <%= render 'comments/comment',book: @book,comment: comment%>
   <%end%>
-</div>
 
-    <%= link_to "Edit this book", edit_book_path(@book), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to books", books_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+		</div>
+		</div>
+	</div>
+	<div class="col-md-7 right" id="product">
+		<div class="pd-summary">
+			<div class="product-short-info">
+				<h1 itemprop="name" class="product-name">
+					 <b><%= @book.title %></b>
+           
+				</h1>
+        <hr>
+				<table class="product-info-table">
+					<tbody>
+						<tr class="product-info-group">
+							<td class="product-info-label">
+								Author 
+							</td>
+							<td class="product-info-data product-price">
+								
+									:  <%=User.find(@book.user_id).username %>
+								
+								
+							</td>
+						</tr>
+						<tr class="product-info-group">
+							<td class="product-info-label">
+								Category
+							</td>
+							<td class="product-info-data product-regular-price">
+								:  <%= link_to(@book.category.name, @book.category) %>
+							</td>
+              
+						</tr>
+            <tr class="product-info-group">
+							<td class="product-info-label">
+								Tags 
+							</td>
+							<td class="product-info-data product-regular-price">
+								 :  <%= raw @book.tags.map(&:name).join(', ') %>
+							</td>
+              
+						</tr>
+						<tr class="product-info-group">
+							<td class="product-info-label">
+								Description 
+							</td>
+							<td class="product-info-data product-status">
+								:  <%= @book.description%>
+							</td>
+						</tr>
+						<tr class="product-info-group">
+							<td class="product-info-label">
+								Synopsis
+							</td>
+							<td class="product-info-data product-code">
+                :  <%= @book.synopsis%>
+							</td>
+						</tr>
+
+            <tr class="product-info-group">
+							<td class="product-info-label">
+								Published on
+							</td>
+							<td class="product-info-data product-code">
+                :  <%= @book.published_on%>
+							</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+		<br>
+			<h2>
+				<b>Actions</b>
+			</h2>
+      <hr>
+			<br>
+			<div class="cart-option">
+				<%if @book.user_id == current_user.id || current_user.admin?%>
+				 <%= link_to "Edit this book", edit_book_path(@book), class: "btn btn-info" %>
+         <%end%>
+    <%= link_to "Back to books", books_path, class: "btn btn-primary" %>
     <div class="inline-block ml-2">
-      <%= button_to "Destroy this book", @book, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
-    </div>
-  </div>
-</div>
+      <%if @book.user_id == current_user.id || current_user.admin?%>
+      <%= button_to "Destroy this book", @book, method: :delete, class: "btn btn-danger" %>
+      <%end%>
+			</div>
+		</div>
+	</div>
+</div>       
 
- </div>
+

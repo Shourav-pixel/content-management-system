@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     end
   end
   root 'pages#home'
+
+
   # devise_for :users
   devise_for :users, controllers: {
         sessions: 'users/sessions',

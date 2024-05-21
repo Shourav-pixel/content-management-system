@@ -1,21 +1,38 @@
-<div class="w-full">
+<div class="mx-auto w-2/5 px-4">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
   <% content_for :title, "Tags" %>
-
+<br>
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Tags</h1>
     <%= link_to "New tag", new_tag_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
+  <br>
 
-  <div id="tags" class="min-w-full">
-    <% @tags.each do |tag| %>
-      <%= render tag %>
-      <p>
-        <%= link_to "Show this tag", tag, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
-  </div>
-</div>
+
+  <table class="table table-light table-hover table-striped ">
+      <thead class="table-dark">
+    <tr>
+      <th>Id</th>
+      <th text-align:"center">Tags</th>
+      <th text-align:"center">Action</th>
+    </tr>
+  </thead>
+   <% @tags.each do |tag| %>
+  <tbody>
+    <tr>
+  
+      <td><%= tag.id %></td>
+      <td> <%= tag.name %></td>
+      <td><%= link_to "Show this Tag", tag, class: "btn btn-info" %></td>
+      
+    </tr>
+    
+   
+  </tbody>
+   <% end %>
+</table>
+
+ 

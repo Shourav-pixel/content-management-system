@@ -1,8 +1,8 @@
 <% if user_signed_in? && current_user.admin? %>
  
-  <div class="card">
+  <div class="card px-4">
     <div class="card-header">
-      User Management
+      Users
     </div>
     <div class="card-body">
       <%= form_with(url: bulk_actions_admin_users_path, id: :bulk_actions_form, method: :post, data: { controller: "form-reset" }) do |form| %>

@@ -1,4 +1,4 @@
-<div class="w-full">
+<div class="mx-auto w-2/5 px-4">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
@@ -7,15 +7,40 @@
 
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Categories</h1>
+    <%if current_user.admin?%>
     <%= link_to "New category", new_category_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%end%>
   </div>
+  <br>
 
-  <div id="categories" class="min-w-full">
-    <% @categories.each do |category| %>
-      <%= render category %>
-      <p>
-        <%= link_to "Show this category", category, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
-  </div>
+<table class="table table-light table-hover table-striped ">
+      <thead class="table-dark">
+    <tr>
+      <th>Id</th>
+      <th text-align:"center">Category</th>
+      <th text-align:"center">Action</th>
+    </tr>
+  </thead>
+   <% @categories.each do |category| %>
+  <tbody>
+    <tr>
+  
+      <td><%= category.id %></td>
+      <td> <%= category.name %></td>
+      <td><%= link_to "Show this category", category, class: "btn btn-info" %></td>
+      
+    </tr>
+    
+   
+  </tbody>
+   <% end %>
+</table>
+
 </div>
+
+
+
+
+
+
+
