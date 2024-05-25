@@ -1,0 +1,146 @@
+<%= form_with(model: storage, class: "contents") do |form| %>
+  <% if storage.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(storage.errors.count, "error") %> prohibited this storage from being saved:</h2>
+
+      <ul>
+        <% storage.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :description %>
+    <%= form.text_area :description, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :image, class: "block text-gray-700 font-semibold" %>
+        <%= form.file_field :image, class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
+  </div>
+
+<%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div class="my-5">
+   <%= form.label :category, class: "block text-gray-700 font-semibold" %>
+        <%= form.select :category_id, options_for_select(@categories.collect { |cat| [cat.name, cat.id] }), {}, class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
+  </div>
+  
+   <div id="custom-fields" class="form-group">
+    <%= form.label "Custom Fields" %>
+    <%= form.fields_for :custom_fielders do |cf_form| %>
+      <div class="custom-field form-group">
+        <div class="form-row">
+          <div class="col">
+            <%= cf_form.label :field_name, "Field Name" %>
+            <%= cf_form.text_field :field_name, placeholder: "Field Name", class: 'form-control' %>
+          </div>
+          <div class="col">
+            <%= cf_form.label :field_type, "Field Type" %>
+            <%= cf_form.select :field_type, options_for_select([['String', 'string'], ['Integer', 'integer']]), {}, { class: 'form-control' } %>
+          </div>
+          <div class="col">
+            <%= cf_form.hidden_field :state, value: true %>
+            <%= link_to 'Remove', '#', class: 'remove-custom-field btn btn-danger btn-sm' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to 'Add Custom Field', '#', id: 'add-custom-field', class: 'btn btn-primary btn-sm' %>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var customFieldsContainer = document.getElementById('custom-fields');
+
+    document.getElementById('add-custom-field').addEventListener('click', function(event) {
+      event.preventDefault();
+      var fieldCount = customFieldsContainer.querySelectorAll('.custom-field').length;
+      var fieldHtml = `
+        <div class="custom-field form-group">
+          <div class="form-row">
+            <div class="col">
+              <label for="storage_custom_fielders_attributes_${fieldCount}_field_name">Field Name</label>
+              <input type="text" name="storage[custom_fielders_attributes][${fieldCount}][field_name]" id="storage_custom_fielders_attributes_${fieldCount}_field_name" placeholder="Field Name" class="form-control">
+            </div>
+            <div class="col">
+              <label for="storage_custom_fielders_attributes_${fieldCount}_field_type">Field Type</label>
+              <select name="storage[custom_fielders_attributes][${fieldCount}][field_type]" id="storage_custom_fielders_attributes_${fieldCount}_field_type" class="form-control">
+                <option value="string">String</option>
+                <option value="integer">Integer</option>
+              </select>
+            </div>
+            <div class="col">
+              <input type="hidden" name="storage[custom_fielders_attributes][${fieldCount}][state]" value="true">
+              <a href="#" class="remove-custom-field btn btn-danger btn-sm">Remove</a>
+            </div>
+          </div>
+        </div>`;
+      customFieldsContainer.insertAdjacentHTML('beforeend', fieldHtml);
+    });
+
+    customFieldsContainer.addEventListener('click', function(event) {
+      if (event.target.classList.contains('remove-custom-field')) {
+        event.preventDefault();
+        event.target.closest('.custom-field').remove();
+        
+        // Reindex remaining custom fields
+        var fields = customFieldsContainer.querySelectorAll('.custom-field');
+        fields.forEach(function(field, index) {
+          var inputs = field.querySelectorAll('input, select');
+          inputs.forEach(function(input) {
+            var name = input.getAttribute('name');
+            var id = input.getAttribute('id');
+            if (name) {
+              var newName = name.replace(/\[\d+\]/, `[${index}]`);
+              input.setAttribute('name', newName);
+            }
+            if (id) {
+              var newId = id.replace(/_\d+_/, `_${index}_`);
+              input.setAttribute('id', newId);
+            }
+          });
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .custom-field {
+    margin-bottom: 1rem;
+  }
+  .form-row {
+    display: flex;
+    align-items: center;
+  }
+  .form-row .col {
+    margin-right: 1rem;
+  }
+  .form-row .col:last-child {
+    margin-right: 0;
+  }
+  .btn-sm {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+  }
+  .mt-3 {
+    margin-top: 1rem;
+  }
+</style>

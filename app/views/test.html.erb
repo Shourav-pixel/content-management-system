@@ -33,3 +33,27 @@
       <%= button_to "Destroy this book", @book, method: :delete, class: "btn btn-danger" %>
     </div>
   </div>
+
+
+
+  class Collection < ApplicationRecord
+  has_many :collection_items
+  has_many :items, through: :collection_items
+
+  validates :name, presence: true
+  # ... other validations (optional)
+
+  def custom_fields=(fields)
+    self.custom_fields_hash = fields.map do |field|
+      CustomField.new(field.slice(:name, :type, :options))
+    end
+  end
+
+  def custom_fields_hash=(fields_hash)
+    self.custom_fields = fields_hash.to_json
+  end
+
+  def custom_fields
+    @custom_fields ||= JSON.parse(self.custom_fields || '[]').map { |field| CustomField.new(field) }
+  end
+end

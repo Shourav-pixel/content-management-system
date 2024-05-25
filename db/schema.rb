@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_17_180343) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_24_193315) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_17_180343) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "custom_fielders", force: :cascade do |t|
+    t.bigint "storage_id", null: false
+    t.string "field_name"
+    t.string "field_type"
+    t.boolean "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["storage_id"], name: "index_custom_fielders_on_storage_id"
+  end
+
   create_table "likes", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "record_type", null: false
@@ -91,6 +101,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_17_180343) do
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id"], name: "index_likes_on_record"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "storages", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "image_data"
+    t.bigint "user_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_storages_on_category_id"
+    t.index ["user_id"], name: "index_storages_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -135,7 +157,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_17_180343) do
   add_foreign_key "books", "users"
   add_foreign_key "comments", "books"
   add_foreign_key "comments", "users"
+  add_foreign_key "custom_fielders", "storages"
   add_foreign_key "likes", "users"
+  add_foreign_key "storages", "categories"
+  add_foreign_key "storages", "users"
   add_foreign_key "taggings", "books"
   add_foreign_key "taggings", "tags"
 end
