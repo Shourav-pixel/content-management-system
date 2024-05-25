@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  resources :storages
+  resources :storages do
+    resources :books
+  end
   resources :tags
   resources :categories
+
+  
   resources :books do 
     resource :like, module: :books
     resources :comments

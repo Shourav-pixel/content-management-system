@@ -65,6 +65,15 @@
 							</td>
               
 						</tr>
+						<tr class="product-info-group">
+							<td class="product-info-label">
+								Collection
+							</td>
+							<td class="product-info-data product-regular-price">
+								:  <%= link_to(@book.storage.name, @book.storage) %>
+							</td>
+              
+						</tr>
             <tr class="product-info-group">
 							<td class="product-info-label">
 								Tags 
@@ -110,14 +119,16 @@
       <hr>
 			<br>
 			<div class="cart-option">
-				<%if @book.user_id == current_user.id || current_user.admin?%>
-				 <%= link_to "Edit this book", edit_book_path(@book), class: "btn btn-info" %>
+				<%if user_signed_in? && (@storage.user == current_user || current_user.admin?)%>
+				 <%= link_to "Edit this book", edit_storage_book_path(@storage,@book), class: "btn btn-info" %>
+				  <%= button_to "Destroy this book", @book, method: :delete, class: "btn btn-danger" %>
+
+				<%else%>
          <%end%>
-    <%= link_to "Back to books", books_path, class: "btn btn-primary" %>
+ 
     <div class="inline-block ml-2">
-      <%if @book.user_id == current_user.id || current_user.admin?%>
-      <%= button_to "Destroy this book", @book, method: :delete, class: "btn btn-danger" %>
-      <%end%>
+   <%= link_to "Back to books", storage_books_path(@storage = @book.storage), class: "btn btn-primary" %>
+	</div>
 			</div>
 		</div>
 	</div>

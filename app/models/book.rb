@@ -10,6 +10,11 @@ class Book < ApplicationRecord
     has_many :likes, as: :record
     has_many :comments, dependent: :destroy
 
+    belongs_to :storage
+    has_many :item_custom_vals, dependent: :destroy
+    has_many :custom_fielders, through: :item_custom_vals
+    accepts_nested_attributes_for :item_custom_vals, allow_destroy: true
+
     scope :filter_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
 
   def self.tagged_with(name)

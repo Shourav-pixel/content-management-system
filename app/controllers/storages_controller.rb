@@ -16,7 +16,7 @@ class StoragesController < ApplicationController
   def new
     @storage = Storage.new
     @storage.custom_fielders.build
-    #@storage.user_id = current_user.id
+    #l@storage.user_id = current_user.id
   end
 
   # GET /storages/1/edit

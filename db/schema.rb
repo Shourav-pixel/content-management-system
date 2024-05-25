@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_24_193315) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_25_094235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,7 +64,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_24_193315) do
     t.bigint "category_id", null: false
     t.bigint "user_id", null: false
     t.integer "likes_count", default: 0
+    t.bigint "storage_id", null: false
     t.index ["category_id"], name: "index_books_on_category_id"
+    t.index ["storage_id"], name: "index_books_on_storage_id"
     t.index ["user_id"], name: "index_books_on_user_id"
   end
 
@@ -91,6 +93,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_24_193315) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["storage_id"], name: "index_custom_fielders_on_storage_id"
+  end
+
+  create_table "item_custom_vals", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.bigint "custom_fielder_id", null: false
+    t.text "field_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_item_custom_vals_on_book_id"
+    t.index ["custom_fielder_id"], name: "index_item_custom_vals_on_custom_fielder_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -154,10 +166,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_24_193315) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "books", "categories"
+  add_foreign_key "books", "storages"
   add_foreign_key "books", "users"
   add_foreign_key "comments", "books"
   add_foreign_key "comments", "users"
   add_foreign_key "custom_fielders", "storages"
+  add_foreign_key "item_custom_vals", "books"
+  add_foreign_key "item_custom_vals", "custom_fielders"
   add_foreign_key "likes", "users"
   add_foreign_key "storages", "categories"
   add_foreign_key "storages", "users"

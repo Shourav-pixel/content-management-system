@@ -39,7 +39,7 @@
           
           <td class="py-2 px-4"><%= book.synopsis %></td>
           <td class="py-2 px-4"><%= book.published_on %></td>
-          <td class="py-2 px-4"><%= link_to "Show", book, class: "btn btn-info" %></td>
+          <td class="py-2 px-4"><%= link_to "Show", storage_book_path(@storage,book), class: "btn btn-info" %></td>
         </tr>
       <% end %>
     </tbody>

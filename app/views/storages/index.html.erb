@@ -1,21 +1,49 @@
+  
+
+
+
+
+<%# Notun  %>
+
 <div class="w-full">
-  <% if notice.present? %>
+<% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <% content_for :title, "Storages" %>
+  <% content_for :title, "Collections" %>
 
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Storages</h1>
-    <%= link_to "New storage", new_storage_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <h1 class="font-bold text-4xl">Collections</h1>
+    <%= link_to "New Collections", new_storage_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div id="storages" class="min-w-full">
-    <% @storages.each do |storage| %>
-      <%= render storage %>
-      <p>
-        <%= link_to "Show this storage", storage, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
-  </div>
+<br>
+<div class="card-body">
+<div class="relative  overflow-x-auto px-4">
+<table class="min-w-full bg-white border border-gray-300">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr class="w-full border-b bg-gray-100">
+        <th class="py-2 px-4 text-left">Title</th>
+        <th class="py-2 px-4 text-left">Category</th>
+        <th class="py-2 px-4 text-left">Image</th>
+        <th class="py-2 px-4 text-left">Show On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @storages.each do |storage| %>
+        <tr id="<%= dom_id storage %>" class="w-full border-b">
+          <td class="py-2 px-4"><%= storage.name %></td>
+          <%# <td class="py-2 px-4"><%= User.find(storage.user_id).username %></td> <!-- Assuming 'username' is a field in the User model -->
+          <td class="py-2 px-4"><%= link_to storage.category.name, storage.category %></td>
+          
+          <td class="py-2 px-4"><%= image_tag storage.image_url, alt: "#{storage.name} Image", class: "w-20 h-20 rounded-md" if storage.image_data.present? %></td>
+          
+          
+          <td class="py-2 px-4"><%= link_to "Show", storage, class: "btn btn-info" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
+</div>
+
