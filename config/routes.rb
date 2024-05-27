@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :storages do
     resources :books
+    collection do
+      post :search
+    end
   end
   resources :tags
   resources :categories

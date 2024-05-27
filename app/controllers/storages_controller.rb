@@ -18,6 +18,18 @@ class StoragesController < ApplicationController
     @storage.custom_fielders.build
     #l@storage.user_id = current_user.id
   end
+  def search
+    @storage = Storage.where('name ILIKE ?', "%#{params[:name_search]}%").order(created_at: :desc)
+    respond_to do |format|
+      format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update("search_results",
+            partial: "storages/search_results",
+            locals: { storage: @storage })
+          ]
+      end
+    end
+  end
 
   # GET /storages/1/edit
   def edit
@@ -55,6 +67,12 @@ class StoragesController < ApplicationController
   def destroy
     @storage = Storage.find(params[:id])
     @storage.custom_fielders.destroy_all
+    @storage.books.each do |book|
+      book.taggings.destroy_all
+    end
+    
+    @storage.books.destroy_all
+    @storage.destroy
 
     respond_to do |format|
       format.html { redirect_to storages_url, notice: "Storage was successfully destroyed." }

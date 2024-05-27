@@ -1,59 +1,158 @@
-    <%= render @book %>
-<div>
+<%# Notun %>
+<style>
+  .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #000;
+    margin: 2px 0;
+  }
+  .frame1 {
+    visibility: hidden;
+  }
+  .frame1 .info {
+    font-size: 18px;
+    color: #333;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .frame1 .info:hover {
+    background-color: #f0f0f0;
+  }
+  .frame1 .info span {
+    margin-left: 10px;
+  }
+  .main-img {
+    border-radius: 15px;
+  }
+  .btn {
+    margin-right: 10px;
+  }
+  .like-button {
+    display: inline-flex;
+    align-items: center;
+  }
+  .like-button svg {
+    margin-right: 5px;
+  }
+</style>
 
-  <div>
-
- 
-  <p>
-<strong>Image data:</strong>
-<%= image_tag @book.image_url, height: '100px', width: '100px' if @book.image %>
-</p>
-</div>
-<div>
-<strong>Tag data:</strong>
-  <p>
-    <small>Tags: <%= raw @book.tags.map(&:name).join(', ') %></small>
-  </p>
-</div>
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <% end %>
+  </div>
 </div>
 
- <p>
-    <%= render partial: "likes", locals: {book: @book}%>
-  </p>
-<div class="container">
-  <%= render 'comments/form',book: @book%>
-  <% @comments.each do |comment|%>
-  <%= render 'comments/comment',book: @book,comment: comment%>
-  <%end%>
-</div>
-<br>
-    <%= link_to "Edit this book", edit_book_path(@book), class: "btn btn-info" %>
-    <%= link_to "Back to books", books_path, class: "btn btn-primary" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this book", @book, method: :delete, class: "btn btn-danger" %>
+<%# ADDED %>
+
+<div class="basic row">
+  <div class="col-md-5 left">
+    <div class="images product-images px-4">
+      <div class="product-img-holder relative">
+        <%= image_tag @book.image_url, height: '400', width: '400', class: 'main-img' if @book.image %>
+
+        <div class="group-menu absolute top-2 right-2 cursor-pointer" onclick="toggleMenu(this)">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+
+        <% if user_signed_in? && (@book.user == current_user || current_user.admin?) %>
+          <!-- Menu items -->
+          <div class="frame1 absolute top-8 right-0 bg-white border border-gray-200 shadow-md rounded-md">
+            <%= button_to "Delete", [@book.storage, @book], method: :delete, data: { confirm: 'Are you sure?' }, class: "block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left" %>
+            <%= link_to "Edit this book", edit_storage_book_path(@book.storage, @book), class: "block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100" %>
+            <%= link_to "Back to items", storage_books_path(@book.storage), class: "block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100" %>
+          </div>
+        <% end %>
+
+        <h3>Comment</h3>
+        <%= render 'comments/form', book: @book %>
+        <% @comments.each do |comment| %>
+          <%= render 'comments/comment', book: @book, comment: comment %>
+        <% end %>
+      </div>
     </div>
   </div>
 
+  <div class="col-md-7 right" id="product">
+    <div class="pd-summary">
+      <div class="product-short-info">
+        <h1 itemprop="name" class="product-name text-2xl font-bold mb-4">
+          <b><%= @book.title %></b>
+        </h1>
+        <hr class="mb-4">
+        <table class="product-info-table">
+          <tbody>
+            <tr class="product-info-group">
+              <td class="product-info-label font-semibold">Author</td>
+              <td class="product-info-data product-price">
+                : <%= User.find(@book.user_id).username %>
+              </td>
+            </tr>
+            <tr class="product-info-group">
+              <td class="product-info-label font-semibold">Category</td>
+              <td class="product-info-data product-regular-price">
+                : <%= link_to(@book.category.name, @book.category) %>
+              </td>
+            </tr>
+            <tr class="product-info-group">
+              <td class="product-info-label font-semibold">Collection</td>
+              <td class="product-info-data product-regular-price">
+                : <%= link_to(@book.storage.name, @book.storage) %>
+              </td>
+            </tr>
+            <tr class="product-info-group">
+              <td class="product-info-label font-semibold">Tags</td>
+              <td class="product-info-data product-regular-price">
+                : <%= raw @book.tags.map(&:name).join(', ') %>
+              </td>
+            </tr>
+            <tr class="product-info-group">
+              <td class="product-info-label font-semibold">Description</td>
+              <td class="product-info-data product-status">
+                : <%= @book.description %>
+              </td>
+            </tr>
+            <tr class="product-info-group">
+              <td class="product-info-label font-semibold">Synopsis</td>
+              <td class="product-info-data product-code">
+                : <%= @book.synopsis %>
+              </td>
+            </tr>
+            <tr class="product-info-group">
+              <td class="product-info-label font-semibold">Published on</td>
+              <td class="product-info-data product-code">
+                : <%= @book.published_on %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <h2 class="text-xl font-semibold mb-4">Actions</h2>
+      <hr class="mb-4">
+      <div class="inline-block ml-8">
+        <% if user_signed_in? && (@book.user == current_user || current_user.admin?) %>
+          <%= link_to "Edit this Item", edit_storage_book_path(@book.storage, @book), class: "btn btn-info" %>
+          <%= button_to "Delete this Item", [@book.storage, @book], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        <% end %>
+        <%= link_to "Items", storage_books_path(@book.storage), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-  class Collection < ApplicationRecord
-  has_many :collection_items
-  has_many :items, through: :collection_items
-
-  validates :name, presence: true
-  # ... other validations (optional)
-
-  def custom_fields=(fields)
-    self.custom_fields_hash = fields.map do |field|
-      CustomField.new(field.slice(:name, :type, :options))
-    end
-  end
-
-  def custom_fields_hash=(fields_hash)
-    self.custom_fields = fields_hash.to_json
-  end
-
-  def custom_fields
-    @custom_fields ||= JSON.parse(self.custom_fields || '[]').map { |field| CustomField.new(field) }
-  end
-end
+<script>
+  function toggleMenu(element) {
+    const frame = element.nextElementSibling;
+    if (frame.style.visibility === "visible") {
+      frame.style.visibility = "hidden";
+    } else {
+      frame.style.visibility = "visible";
+    }
+  }
+</script>

@@ -2,7 +2,6 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
   before_action :set_categories
   before_action :set_storage
-  # before_action :authenticate_user!,except: [:index, :show]
   before_action :authenticate_user!, except: [:index, :show]
 
   # GET /books or /books.json
@@ -131,7 +130,7 @@ class BooksController < ApplicationController
     @book.destroy
 
     respond_to do |format|
-      format.html { redirect_to books_url, notice: "Book was successfully destroyed." }
+      format.html { redirect_to storage_books_url }
       format.json { head :no_content }
     end
   end

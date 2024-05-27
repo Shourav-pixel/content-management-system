@@ -19,14 +19,12 @@
 
       <div>
         <%= form.label :title, class: "block text-gray-700 font-semibold" %>
-        <%= form.text_field :title, placeholder: "Enter the book title", class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
+        <%= form.text_field :title, placeholder: "Enter the item title", class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
       </div>
 
-      <div>
-        <%= form.label :category, class: "block text-gray-700 font-semibold" %>
-        <%= form.select :category_id, options_for_select(@categories.collect { |cat| [cat.name, cat.id] }), {}, class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
-      </div>
+      <%= form.hidden_field :category_id , value: @storage.category_id%>
 
+      
       <div>
         <%= form.label :tag_ids, class: "block text-gray-700 font-semibold" %>
         <%= form.collection_select :tag_ids, Tag.order(:name), :id, :name, {}, { multiple: true, id: "tag_ids_select", class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" } %>
@@ -34,7 +32,7 @@
 
       <div>
         <%= form.label :description, class: "block text-gray-700 font-semibold" %>
-        <%= form.text_area :description, placeholder: "Enter the book description", rows: 4, class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
+        <%= form.text_area :description, placeholder: "Enter the item description", rows: 4, class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
       </div>
 
       <div>
@@ -42,14 +40,11 @@
         <%= form.file_field :image, class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
       </div>
 
-      <div>
-        <%= form.label :author, class: "block text-gray-700 font-semibold" %>
-        <%= form.text_field :author, placeholder: "Enter the author's name", class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
-      </div>
+      
 
       <div>
         <%= form.label :synopsis, class: "block text-gray-700 font-semibold" %>
-        <%= form.text_area :synopsis, placeholder: "Enter the book synopsis", rows: 4, class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
+        <%= form.text_area :synopsis, placeholder: "Enter the item synopsis", rows: 4, class: "block shadow rounded-md border border-gray-300 outline-none px-3 py-2 mt-2 w-full focus:ring focus:ring-blue-200" %>
       </div>
 
       <div>
@@ -70,7 +65,7 @@
   </div>
 
       <div>
-        <%= form.submit "Save Book", class: "rounded-lg py-3 px-5 bg-blue-600 text-white font-medium cursor-pointer hover:bg-blue-700 focus:ring focus:ring-blue-200" %>
+        <%= form.submit "Save Item", class: "rounded-lg py-3 px-5 bg-blue-600 text-white font-medium cursor-pointer hover:bg-blue-700 focus:ring focus:ring-blue-200" %>
       </div>
     <% end %>
   </div>

@@ -12,7 +12,7 @@
       <div class="relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0">
 
 
-        <%= form_with url: search_books_path, method: :post, data: { controller: 'debounce', debounce_target: 'form' } do |form| %>
+        <%= form_with url: search_storages_path, method: :post, data: { controller: 'debounce', debounce_target: 'form' } do |form| %>
   <label for="search" class="sr-only">Search</label>
   <div class="relative">
     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -105,11 +105,12 @@
 
       <nav class="hidden lg:flex lg:space-x-8 lg:py-2" aria-label="Global">
       <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-900 hover:bg-gray-50 hover:text-gray-900" -->
-      <a href="#" class="bg-gray-100 text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium" aria-current="page">Dashboard</a>
+    
+      <%= link_to "Dashboard",root_path,class:"text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"%>
       <% if user_signed_in?%>
       
       <%=link_to "Create Collection",new_storage_path,class:"text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"%>
-       <%= link_to "Books", books_path, class: "text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium" %>
+       <%= link_to "Collections", storages_path, class: "text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium" %>
     
       <% end%>
       <% if user_signed_in? && current_user.admin? %>
@@ -117,10 +118,7 @@
        <%=link_to "Categories",categories_path,class:"text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"%>
       
       <%end%>
-     <select class="text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 hover:bg-gray-50 hover:text-gray-900 py-2 px-3 text-sm font-medium">
-  <option value="dark">Dark</option>
-  <option value="light">Light</option>
-</select>
+   
       <%if user_signed_in?%>
       <%=link_to "Tags",tags_path,class:"text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"%>
       <%end%>

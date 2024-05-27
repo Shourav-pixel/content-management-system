@@ -1,0 +1,57 @@
+
+<br>
+<br>
+<div class="search-results-container">
+  <div class="results-count">
+    <%= pluralize(storage.count, 'result') %> found
+  </div>
+  <ul class="results-list">
+    <% storage.each do |storage| %>
+      <li class="result-item">
+        <%= link_to storage_path(storage), class: 'result-link' do %>
+          <%= highlight(storage.name, params.dig(:name_search)) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<style>
+    .search-results-container {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #fafafa;
+}
+
+.results-count {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.results-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.result-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-link {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.result-link:hover {
+  text-decoration: underline;
+}
+
+</style>

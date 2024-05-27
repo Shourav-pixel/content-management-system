@@ -1,137 +1,164 @@
+<%# Notun %>
+<style>
+  .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #000;
+    margin: 2px 0;
+  }
+  .frame1 {
+    visibility: hidden;
+  }
+  .frame1 .info {
+    font-size: 18px;
+    color: #333;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .frame1 .info:hover {
+    background-color: #f0f0f0;
+  }
+  .frame1 .info span {
+    margin-left: 10px;
+  }
+  .main-img {
+    border-radius: 15px;
+  }
+  .btn {
+    margin-right: 10px;
+  }
+  .like-button {
+    display: inline-flex;
+    align-items: center;
+  }
+  .like-button svg {
+    margin-right: 5px;
+  }
+  
+</style>
+
 <div class="mx-auto md:w-2/3 w-full flex">
   <div class="mx-auto">
     <% if notice.present? %>
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
-
-
+  </div>
 </div>
-
- </div>
-
- 
-
 
 <%# ADDED %>
 
-
 <div class="basic row">
-	<div class="col-md-5 left">
-		<div class="images product-images px-4">
-			<div class="product-img-holder ">
-				
-					
-        <%= image_tag @book.image_url, height: '00', width: '400', class: 'main-img ' if @book.image %>
-			
+  <div class="col-md-5 left">
+    <div class="images product-images px-4">
+      <div class="product-img-holder relative">
+        <%= image_tag @book.image_url, height: '400', width: '400', class: 'main-img' if @book.image %>
 
-      <%= render partial: "likes", locals: {book: @book}%>
-      
-        <h3>Comment</h3>
-  <%= render 'comments/form',book: @book%>
-  <% @comments.each do |comment|%>
-  <%= render 'comments/comment',book: @book,comment: comment%>
-  <%end%>
-
-		</div>
-		</div>
-	</div>
-	<div class="col-md-7 right" id="product">
-		<div class="pd-summary">
-			<div class="product-short-info">
-				<h1 itemprop="name" class="product-name">
-					 <b><%= @book.title %></b>
-           
-				</h1>
-        <hr>
-				<table class="product-info-table">
-					<tbody>
-						<tr class="product-info-group">
-							<td class="product-info-label">
-								Author 
-							</td>
-							<td class="product-info-data product-price">
-								
-									:  <%=User.find(@book.user_id).username %>
-								
-								
-							</td>
-						</tr>
-						<tr class="product-info-group">
-							<td class="product-info-label">
-								Category
-							</td>
-							<td class="product-info-data product-regular-price">
-								:  <%= link_to(@book.category.name, @book.category) %>
-							</td>
-              
-						</tr>
-						<tr class="product-info-group">
-							<td class="product-info-label">
-								Collection
-							</td>
-							<td class="product-info-data product-regular-price">
-								:  <%= link_to(@book.storage.name, @book.storage) %>
-							</td>
-              
-						</tr>
-            <tr class="product-info-group">
-							<td class="product-info-label">
-								Tags 
-							</td>
-							<td class="product-info-data product-regular-price">
-								 :  <%= raw @book.tags.map(&:name).join(', ') %>
-							</td>
-              
-						</tr>
-						<tr class="product-info-group">
-							<td class="product-info-label">
-								Description 
-							</td>
-							<td class="product-info-data product-status">
-								:  <%= @book.description%>
-							</td>
-						</tr>
-						<tr class="product-info-group">
-							<td class="product-info-label">
-								Synopsis
-							</td>
-							<td class="product-info-data product-code">
-                :  <%= @book.synopsis%>
-							</td>
-						</tr>
-
-            <tr class="product-info-group">
-							<td class="product-info-label">
-								Published on
-							</td>
-							<td class="product-info-data product-code">
-                :  <%= @book.published_on%>
-							</td>
-						</tr>
-						
-					</tbody>
-				</table>
-			</div>
 		<br>
-			<h2>
-				<b>Actions</b>
-			</h2>
-      <hr>
-			<br>
-			<div class="cart-option">
-				<%if user_signed_in? && (@storage.user == current_user || current_user.admin?)%>
-				 <%= link_to "Edit this book", edit_storage_book_path(@storage,@book), class: "btn btn-info" %>
-				  <%= button_to "Destroy this book", @book, method: :delete, class: "btn btn-danger" %>
+		 <%= render partial: "likes", locals: {book: @book}%>
 
-				<%else%>
-         <%end%>
- 
-    <div class="inline-block ml-2">
-   <%= link_to "Back to books", storage_books_path(@storage = @book.storage), class: "btn btn-primary" %>
-	</div>
-			</div>
-		</div>
-	</div>
-</div>       
+        <div class="group-menu absolute top-2 right-2 cursor-pointer" onclick="toggleMenu(this)">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
 
+        <% if user_signed_in? && (@book.user == current_user || current_user.admin?) %>
+          <!-- Menu items -->
+          <div class="frame1 absolute top-8 right-0 bg-white border border-gray-200 shadow-md rounded-md">
+            <%= button_to "Delete", [@book.storage, @book], method: :delete, data: { confirm: 'Are you sure?' }, class: "block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left" %>
+            <%= link_to "Edit this Item", edit_storage_book_path(@book.storage, @book), class: "block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100" %>
+            <%= link_to "Back to items", storage_books_path(@book.storage), class: "block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100" %>
+          </div>
+        <% end %>
 
+        <h1 itemprop="name" class="product-name text-xl font-bold mb-4">
+          <b>Comments</b>
+        </h1>
+        <%= render 'comments/form', book: @book %>
+        <% @comments.each do |comment| %>
+          <%= render 'comments/comment', book: @book, comment: comment %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-7 right" id="product">
+  <div class="pd-summary">
+    <div class="product-short-info">
+      <div class="card shadow-lg rounded-lg overflow-hidden">
+        <div class="card-header bg-gray-200 text-black py-4">
+          <h1 itemprop="name" class="product-name text-3xl font-bold mb-2">
+            <%= @book.title %>
+          </h1>
+        </div>
+        <div class="card-body bg-light p-4">
+          <hr class="mb-4">
+          <table class="product-info-table w-full">
+            <tbody>
+              <tr class="product-info-group border-b-2 border-gray-300 py-2">
+                <td class="product-info-label font-semibold text-lg">Author</td>
+                <td class="product-info-data pl-4 text-lg">
+                  : <%= User.find(@book.user_id).username %>
+                </td>
+              </tr>
+              <tr class="product-info-group border-b-2 border-gray-300 py-2">
+                <td class="product-info-label font-semibold text-lg">Category</td>
+                <td class="product-info-data pl-4 text-lg text-blue-600">
+                : <%= link_to(@book.category.name, @book.category) %>
+                </td>
+              </tr>
+              <tr class="product-info-group border-b-2 border-gray-300 py-2">
+                <td class="product-info-label font-semibold text-lg">Collection</td>
+                <td class="product-info-data pl-4 text-lg text-blue-600">
+
+                  : <%= link_to(@book.storage.name, @book.storage) %>
+                </td>
+              </tr>
+              <tr class="product-info-group border-b-2 border-gray-300 py-2">
+                <td class="product-info-label font-semibold text-lg">Tags</td>
+                <td class="product-info-data pl-4 text-lg">
+                  : <%= raw @book.tags.map(&:name).join(', ') %>
+                </td>
+              </tr>
+              <tr class="product-info-group border-b-2 border-gray-300 py-2">
+                <td class="product-info-label font-semibold text-lg">Description</td>
+                <td class="product-info-data pl-4 text-lg">
+                  : <%= @book.description %>
+                </td>
+              </tr>
+              <tr class="product-info-group border-b-2 border-gray-300 py-2">
+                <td class="product-info-label font-semibold text-lg">Synopsis</td>
+                <td class="product-info-data pl-4 text-lg">
+                  : <%= @book.synopsis %>
+                </td>
+              </tr>
+              <tr class="product-info-group border-b-2 border-gray-300 py-2">
+                <td class="product-info-label font-semibold text-lg">Published on</td>
+                <td class="product-info-data pl-4 text-lg">
+                  : <%= @book.published_on %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%# ekan %>
+</div>
+</div>
+
+<script>
+  function toggleMenu(element) {
+
+    const frame = element.nextElementSibling;
+    if (frame.style.visibility === "visible") {
+      frame.style.visibility = "hidden";
+    } else {
+      frame.style.visibility = "visible";
+    }
+  }
+</script>
