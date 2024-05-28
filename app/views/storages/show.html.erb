@@ -114,7 +114,7 @@
         <div class="group relative border border-gray-200 rounded-md overflow-hidden">
           <%= image_tag book.image_url, class: "w-full h-48 object-cover rounded-t-md", alt: "#{book.title} Image" if book.image %>
           <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-700 mb-2"><%= "#{book.title}, #{User.find(@book.user_id).username }" %></h3>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2"><%= "#{book.title}" %></h3>
             <div class="flex items-center justify-between">
               <div class="flex items-center">
                 <%= button_to book_like_path(book), method: :patch, class: "like-button mr-2", id: "like-button", remote: true do %>
