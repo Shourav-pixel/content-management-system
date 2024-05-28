@@ -3,6 +3,7 @@ class Book < ApplicationRecord
     validates :category_id, presence: true
     belongs_to :category
     belongs_to :user
+   
     has_many :taggings
     
     # has_many :taggings, foreign_key: 'books_id'

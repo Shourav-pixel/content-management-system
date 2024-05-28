@@ -11,6 +11,7 @@ class User < ApplicationRecord
   #   self.role ||= :user
   # end
   enum status: { active: "active", blocked: "blocked", deleted: "deleted" }
+  has_many :storages
   has_many :books
   has_many :likes
   has_many :comments, dependent: :destroy

@@ -5,4 +5,10 @@ class PagesController < ApplicationController
     @tags = Tag.all
     @categories = Category.all
   end
+
+  def profile
+    @storage = Storage.all
+    @user = User.find(current_user.id)
+    
+  end
 end

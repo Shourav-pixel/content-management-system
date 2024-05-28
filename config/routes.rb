@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
   end
   root 'pages#home'
+  get "myprofile"=>'pages#profile'
 
 
   # devise_for :users
