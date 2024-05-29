@@ -7,7 +7,7 @@
             style="background-image:url('https://images.unsplash.com/photo-1546514714-df0ccc50d7bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80')">
         </div>
         <div class="w-full p-8 lg:w-1/2">
-            <h2 class="text-2xl font-semibold text-gray-700 text-center">Book Site</h2>
+            <h2 class="text-2xl font-semibold text-gray-700 text-center">Collection Site</h2>
             <p class="text-xl text-gray-600 text-center">Create an account!</p>
 
                     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -69,7 +69,7 @@
             <%end%>
             <div class="mt-4 flex items-center justify-between">
                <p class="mt-10 text-center text-sm text-gray-500">
-      Not a member?
+      Already a member?
       <%= link_to "Log in", new_session_path(resource_name), class: "font-semibold leading-6 text-primary hover:text-primary-dark" %><br/>
     </p>
                 

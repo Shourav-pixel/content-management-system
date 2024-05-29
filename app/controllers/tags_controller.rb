@@ -50,6 +50,8 @@ class TagsController < ApplicationController
 
   # DELETE /tags/1 or /tags/1.json
   def destroy
+    
+    @tag.taggings.destroy_all
     @tag.destroy!
 
     respond_to do |format|

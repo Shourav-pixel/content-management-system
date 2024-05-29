@@ -11,7 +11,7 @@
     <table class="table table-light table-hover table-striped px-4">
       <thead class="table-dark">
     <tr>
-      <th scope="col">Item</th>
+     <th scope="col"> <center>Item</center></th>
       
       
     </tr>
@@ -20,7 +20,7 @@
   <tbody>
     <tr>
       
-      <td> <%= book.title %></td>
+      <td><center><%= book.title %></center> </td>
       <%# <td><%=link_to "View Book",book,class: "btn btn-primary"%></td>
       
     </tr>
@@ -29,7 +29,7 @@
   </tbody>
    <% end %>
 </table>
-<%if user_signed_in?%>
+<%if user_signed_in? && current_user.admin?%>
     <%= link_to "Edit this tag", edit_tag_path(@tag), class: "btn btn-info" %>
     <%= link_to "Back to tags", tags_path, class: "btn btn-secondary" %>
     <div class="inline-block ml-2">
