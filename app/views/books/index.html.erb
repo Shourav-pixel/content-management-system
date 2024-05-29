@@ -23,7 +23,7 @@
       
         <th class="py-2 px-4 text-left">Image</th>
        
-        <th class="py-2 px-4 text-left">Synopsis</th>
+        <%# <th class="py-2 px-4 text-left">Synopsis</th> %>
         <th class="py-2 px-4 text-left">Published On</th>
         <th class="py-2 px-4 text-left">Show On</th>
       </tr>
@@ -37,8 +37,8 @@
           
           <td class="py-2 px-4"><%= image_tag book.image_url, alt: "#{book.title} Image", class: "w-20 h-20 rounded-md" if book.image_data.present? %></td>
           
-          <td class="py-2 px-4"><%= book.synopsis %></td>
-          <td class="py-2 px-4"><%= book.published_on %></td>
+          <%# <td class="py-2 px-4"><%= book.synopsis %>
+          <td class="py-2 px-4"><%= book.created_at %></td>
           <td class="py-2 px-4"><%= link_to "Show", storage_book_path(@storage,book), class: "btn btn-info" %></td>
         </tr>
       <% end %>

@@ -128,16 +128,11 @@
                   : <%= @book.description %>
                 </td>
               </tr>
-              <tr class="product-info-group border-b-2 border-gray-300 py-2">
-                <td class="product-info-label font-semibold text-lg">Synopsis</td>
-                <td class="product-info-data pl-4 text-lg">
-                  : <%= @book.synopsis %>
-                </td>
-              </tr>
+            
               <tr class="product-info-group border-b-2 border-gray-300 py-2">
                 <td class="product-info-label font-semibold text-lg">Published on</td>
                 <td class="product-info-data pl-4 text-lg">
-                  : <%= @book.published_on %>
+                  : <%= @book.created_at %>
                 </td>
               </tr>
             </tbody>
