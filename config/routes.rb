@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   end
   resources :tags
   resources :categories
-
+  #For ticket
+  #resources :support_tickets, only: [:new, :create, :show]
+  resources :tickets, only: [:new, :create,:index]
   
   resources :books do 
     resource :like, module: :books

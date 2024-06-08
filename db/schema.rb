@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_25_094235) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_08_174219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -127,6 +127,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_25_094235) do
     t.index ["user_id"], name: "index_storages_on_user_id"
   end
 
+  create_table "support_tickets", force: :cascade do |t|
+    t.string "summary"
+    t.string "priority"
+    t.string "jira_key"
+    t.string "jira_url"
+    t.bigint "user_id", null: false
+    t.bigint "storage_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["storage_id"], name: "index_support_tickets_on_storage_id"
+    t.index ["user_id"], name: "index_support_tickets_on_user_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.bigint "tag_id"
     t.bigint "book_id"
@@ -176,6 +190,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_25_094235) do
   add_foreign_key "likes", "users"
   add_foreign_key "storages", "categories"
   add_foreign_key "storages", "users"
+  add_foreign_key "support_tickets", "storages"
+  add_foreign_key "support_tickets", "users"
   add_foreign_key "taggings", "books"
   add_foreign_key "taggings", "tags"
 end

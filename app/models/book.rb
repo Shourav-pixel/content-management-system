@@ -16,7 +16,7 @@ class Book < ApplicationRecord
     has_many :custom_fielders, through: :item_custom_vals
     accepts_nested_attributes_for :item_custom_vals, allow_destroy: true
 
-    scope :filter_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
+   # scope :filter_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
 
   def self.tagged_with(name)
     Tag.find_by!(name: name).posts

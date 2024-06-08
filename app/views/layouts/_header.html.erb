@@ -27,7 +27,7 @@
 <% end %>
 
 <div id="search_results"></div>
-      </div>
+  </div>
       <div class="relative z-10 flex items-center lg:hidden">
         <!-- Mobile menu button -->
         <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false">
@@ -110,6 +110,12 @@
     
       <%= link_to "Dashboard",root_path,class:"text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"%>
       <% if user_signed_in?%>
+      <%# Ticketing %>
+      <%= link_to 'Ticket',new_ticket_path, class: "text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium" %>
+      <%= link_to "My Profile",tickets_path, class: "text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium" %>
+       
+       <%# Ticketing %>
+
       
       <%=link_to "Create Collection",new_storage_path,class:"text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium"%>
        <%= link_to "Collections", storages_path, class: "text-gray-900 hover:bg-gray-50 hover:text-gray-900 inline-flex items-center rounded-md py-2 px-3 text-sm font-medium" %>

@@ -1,0 +1,29 @@
+<!-- app/views/users/show.html.erb -->
+<h1><%= @user.email %>'s Support Tickets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Summary</th>
+      <th>Priority</th>
+      <th>Status</th>
+      <th>Created At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @support_tickets.each do |ticket| %>
+      <tr>
+        <td><%= ticket.summary %></td>
+        <td><%= ticket.priority %></td>
+        <td><%= ticket.status %></td>
+        <td><%= ticket.created_at %></td>
+        <td>
+          <%= link_to 'View', user_support_ticket_path(@user, ticket) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @support_tickets %>

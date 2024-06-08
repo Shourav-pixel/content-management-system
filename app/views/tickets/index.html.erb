@@ -1,0 +1,43 @@
+<!-- app/views/users/show.html.erb -->
+<link rel="stylesheet" href="//cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+
+
+
+<center><h1><b>Tickets</b></h1></center>
+<br>
+<div class="conatiner px-4">
+  <table class="table table-light table-hover table-striped" id="myTable">
+  <thead class="table-dark">
+    <tr>
+      <th>Summary</th>
+      <th>Priority</th>
+      <th>Status</th>
+      <th>Created By</th>
+      <th>Created At</th>
+   
+    </tr>
+  </thead>
+  <tbody>
+    <% @ticket.each do |ticket| %>
+      <tr>
+        <td><%= ticket.summary %></td>
+        <td><%= ticket.priority %></td>
+        <td><%= ticket.status %></td>
+        <td><%= ticket.user.username %></td>
+        <td><%= ticket.created_at %></td>
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+  <script src="//cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+<script>
+let table = new DataTable('#myTable');
+</script>
